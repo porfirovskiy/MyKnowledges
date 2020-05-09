@@ -1,0 +1,9 @@
+digraph G {
+   graph [label="Схема PHP интерпретатора" fontsize="40" labelloc="t"];
+   node [margin=0.2 fontcolor=blue fontsize=14 width=1 shape=box]
+  "Исходный код php скрипта" -> "Лексический анализатор"
+  "Лексический анализатор" -> "Синтаксический анализатор" [label="парсинг скрипта"];
+  "Синтаксический анализатор" -> "Транслятор" [label="грамматическая структура"];
+  "Транслятор" -> "Zend Engine(PHP virtual machine)" [label="байт-код(opcode)"];
+  "Zend Engine(PHP virtual machine)" -> "Результат выполения"
+}
