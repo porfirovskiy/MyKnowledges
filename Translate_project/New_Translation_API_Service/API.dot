@@ -1,0 +1,51 @@
+digraph New_Translation_API_Service {
+   graph [label="Conceptual scheme" fontsize="30" labelloc="t"];
+   node [margin=0.2 fontcolor=blue fontsize=20 width=1 shape=box]
+   subgraph cluster1 {
+       node [style=filled,color=white,fontsize=20];
+       style=filled;
+       color="#FFD700";
+       "Core Translate.com logic block" [shape=component, fontsize=24, fontcolor=black];
+       "New Translation API Service" [shape=tripleoctagon];	
+       "Translation memory logic block" [shape=cylinder];
+       "Client Cabinet" [fontcolor=white, color="#007BA7"];
+       "DB" [shape=cylinder];
+       label = "Translate.com";
+  }
+  subgraph cluster2 {
+       node [style=filled,color=white,fontsize=20];
+       style=filled;
+       color="#007BA7";
+       "JS Widget";
+       "M T";
+       "H T";
+       "Site changes listening";
+       label = "Sites";
+  }
+  subgraph cluster3 {
+       node [style=filled,color=white,fontsize=20];
+       style=filled;
+       color="#40826D";
+       "MT";
+       "HT";
+       "Text, files(doc, xml, json)";
+       label = "Other";
+  }
+ 
+  "Core Translate.com logic block" -> "Translation memory logic block"
+  "Translation memory logic block" -> "New Translation API Service"
+  "Client Cabinet" -> "Translation memory logic block"
+  "Client Cabinet" -> "New Translation API Service"
+  "Client Cabinet" -> "Core Translate.com logic block"
+  "DB" -> "New Translation API Service"
+  
+  "New Translation API Service" -> "JS Widget" [label="Api 1"];
+  "JS Widget" -> "M T"
+  "JS Widget" -> "H T"
+  "H T" -> "Site changes listening"
+  "M T" -> "Site changes listening"
+  
+  "New Translation API Service" -> "Text, files(doc, xml, json)" [label="Api 2"];
+  "Text, files(doc, xml, json)" -> "MT"
+  "Text, files(doc, xml, json)" -> "HT"
+}

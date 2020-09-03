@@ -1,0 +1,46 @@
+digraph Zendesk_HT_1 {
+   graph [label="Zendesk Human Translation Workflow 1(HT for triggers)" fontsize="20" labelloc="t"];
+   node [margin=0.2 fontcolor=blue fontsize=14 width=1 shape=box]
+   subgraph cluster1 {
+       node [style=filled,color=white];
+       style=filled;
+       color=lightgrey;
+       "tickets list";
+       "n ticket";
+       "Translate App";
+       label = "Zendesk Account";
+  }
+  subgraph cluster2 {
+       node [style=filled,color=white];
+       style=filled;
+       color=lightgrey;
+       "create ticket trigger";
+       "update ticket trigger";
+       "create target";
+       "update target";
+       label = "Translate zendesk app";
+  }
+  subgraph cluster3 {
+       node [style=filled,color=white];
+       style=filled;
+       color=lightgrey;
+       "method ticket_created()";
+       "method ticket_updated()";
+       label = "Zendesk controller";
+  }
+ 
+  "Translate App" -> "n ticket"
+  "Translate App" -> "tickets list"
+  "Translate App" -> "create ticket trigger"
+  "Translate App" -> "update ticket trigger"
+  "create ticket trigger" -> "create target"
+  "update ticket trigger" -> "update target"
+  "create target" -> "method ticket_created()" [label="GET request params[\"ticket_id\", \"subdomain\"]"];
+  "update target" -> "method ticket_updated()" [label="GET request params[\"ticket_id\", \"subdomain\"]"];
+  "method ticket_created()" -> "Proccess HT in Translate.com"
+  "method ticket_updated()" -> "Proccess HT in Translate.com"
+  "method ticket_updated()" -> "Proccess MT in Translate.com"
+  "Proccess MT in Translate.com" -> "Zendesk API" [label="request post_note()"];
+  "Proccess HT in Translate.com" -> "Zendesk API" [label="request post_note()"];
+  "Zendesk API" -> "n ticket" [label="add new comment with HT or MT result to ticket"];
+}

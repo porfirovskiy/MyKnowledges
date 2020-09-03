@@ -1,0 +1,36 @@
+digraph Zendesk_HT_2 {
+   graph [label="Zendesk Human Translation Workflow 2(manual confirmation of HT)" fontsize="20" labelloc="t"];
+   node [margin=0.2 fontcolor=blue fontsize=14 width=1 shape=box]
+   subgraph cluster1 {
+       node [style=filled,color=white];
+       style=filled;
+       color=lightgrey;
+       "tickets list";
+       "n ticket";
+       "Translate App";
+       label = "Zendesk Account";
+  }
+  subgraph cluster2 {
+       node [style=filled,color=white];
+       style=filled;
+       color=lightgrey;
+       "click on Sumbit Translation Button";
+       label = "Translate zendesk app";
+  }
+  subgraph cluster3 {
+       node [style=filled,color=white];
+       style=filled;
+       color=lightgrey;
+       "method submit_human_translation_order()";
+       label = "api_v2 controller";
+  }
+ 
+  "Translate App" -> "n ticket"
+  "Translate App" -> "tickets list"
+  "Translate App" -> "click on Sumbit Translation Button"
+  "click on Sumbit Translation Button" -> "method submit_human_translation_order()" [label="POST request params[\"api_key and others params\"]"];
+
+  "method submit_human_translation_order()" -> "Proccess HT in Translate.com"
+  "Proccess HT in Translate.com" -> "Zendesk API" [label="request post_note()"];
+  "Zendesk API" -> "n ticket" [label="add new comment with HT result to ticket"];
+}
